@@ -7,7 +7,14 @@
 /// answer to Tick1
 // the header given here is correct.
 let polarToCartesianApprox (r,theta) n = 
-    failwithf "Tick1 not yet implemented" // replace this line with your top-level implementation
+    let sincoeff = if n=0 then [0.0] else List.init (n+1) (fun i -> match i%4 with |0-> 0.0|1-> 1.0|2-> 0.0 |3-> (-1.0))
+    let coscoeff =if n=0 then [1.0] else  List.init (n+1) (fun i -> match i%4 with |0-> 1.0|1-> 0.0|2-> -1.0|3-> 0.0)
+    let fact n = if n = 0 then 1.0 else List.reduce (*) [1.0..(float n)]
+    let term i an = an * ((float theta)**(int i))/(fact (int i))
+    let trig coeff = List.mapi term coeff |> List.reduce (+)
+    r*(trig coscoeff), r*(trig sincoeff)
+    
+    
 
 
 //--------------------testbench code - DO NOT CHANGE-----------------------------//
